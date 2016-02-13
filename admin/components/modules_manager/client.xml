@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="modules_manager">
+	<section name="modules" title="Модули">
+        <show title="Управление модулями">
+            <ContentTable>
+                <change_ordering group_by="position" />
+                <columns>
+                    <column title="Название модуля" type="name" name="name" />
+                    <column title="Позиция" name="position" />
+                    <column title="Опубликовано" type="switch" name="published" />
+                    <column title="Отображать заголовок" type="switch" name="show_header" />
+                    <column title="Страницы" name="assignment_type" replaced="all:Все, except:Кроме выбранных, on:Выбранные" />
+                    <column title="Порядок" type="ordering" name="ordering" />
+                    <column title="Тип модуля" name="module_type" />
+                    <column title="ID" type="id" name="id"/>
+                </columns>
+            </ContentTable>
+        </show>
+        <new title="Создание модуля" onsuccess="Модуль &quot;%name%&quot; создан" save_func="modulesManagerSaveModule">
+            <ContentForm>
+                <fieldset title="Основные параметры" name="main_params">
+                    <field title="Имя модуля" type="text" name="name" required="required" tooltip="Название модуля" />
+                    <field title="Отображать заголовок" type="switch" name="show_header" required="required" />
+                    <field title="Опубликовано" type="switch" name="published" required="required" tooltip="Будет ли модуль отображаться на сайте"/>
+                    <field title="Страницы" type="modulesManagerSelectPagesButton" name="assignment_type" required="required" tooltip="Выберите страницы на которых будет отображаться модуль" />
+                    <field title="" type="hidden" name="assignment_urls" />
+                    <field title="Позиция" type="select" name="position" required="required" >
+                        <options from_url="admin/index.php?com=modules_manager&amp;section=modules&amp;action=get_modules_positions" />
+                    </field>
+                    <field title="Тип модуля" type="modulesManagerSelectModuleTypeButton" name="module_type" required="required" />
+                    <field title="" type="hidden" name="params" />
+                </fieldset>
+                <fieldset title="Параметры модуля" name="module_params">
+                    <field title="Выберите тип модуля" type="normal_text" text="" name="params"/>
+                </fieldset>
+            </ContentForm>
+        </new>
+        <delete onsuccess="%count% модул%(ь|и|ей)% успешно удален%(а|ы|ы)%" confirm="Вы действительно хотите безвозвратно удалить выбранные модули?" />
+        <edit title="Редактирование модуля" onsuccess="Модуль &quot;%name%&quot; изменен" save_func="modulesManagerSaveModule" />
+	</section>
+    <section name="menu_items" title="Пункты меню">
+        <show title="Управление пунктами меню">
+            <ContentTable>
+                <change_ordering group_by="menu_id" />
+                <columns>
+                    <column title="Имя" type="name" name="name" />
+                    <column title="Опубликовано" type="switch" name="published" />
+                    <column title="Меню" name="menu_id" replaced="url:admin/index.php?com=modules_manager&amp;section=modules&amp;action=get&amp;fields=id,name&amp;filter=%7B%22module_type%22%3A%22menu%22%7D" />
+                    <column title="Тип пункта" name="type" replaced="url:admin/index.php?com=modules_manager&amp;section=menu_items&amp;action=get_types" />
+                    <column title="Порядок" type="ordering" name="ordering" />
+                    <column title="URL" name="item_url" />
+                    <column title="ID" type="id" name="id"/>
+                </columns>
+            </ContentTable>
+        </show>
+        <new title="Создание пункта меню" onsuccess="Пункт меню создан">
+            <ContentForm>
+                <fieldset title="Параметры пункта меню" name="main_params">
+                    <field title="Имя" type="text" name="name" required="required" />
+                    <field title="Опубликовано" type="switch" name="published" required="required" />
+                    <field title="Меню" type="select" name="menu_id" required="required">
+                        <options from_url="admin/index.php?com=modules_manager&amp;section=modules&amp;action=get&amp;fields=name,id&amp;filter=%7B%22module_type%22%3A%22menu%22%7D"/>
+                    </field>
+                    <field title="URL" type="text" name="item_url" required="required" pattern="/^\/((([a-z0-9\-_]+\/)+)?[a-z0-9\-_]+\.html)?$/" invalid_description="Неверный формат url&lt;br /&gt;образец: &lt;b&gt;/test/page.html&lt;/b&gt;" />
+                    <field title="Тип" type="modulesManagerMenuItemsSelectItemTypeButton" name="type" required="required" />
+                    <field title="" type="hidden" name="params" />
+                </fieldset>
+                <fieldset title="Параметры пункта меню" name="item_params">
+                    <field title="Выберите тип пункта меню" type="normal_text" />
+                </fieldset>
+            </ContentForm>
+        </new>
+        <delete onsuccess="%count% пункт%(|а|ов)% успешно удален%(|ы|ы)%" />
+        <edit title="Редактирование пункта меню" onsuccess="Пункт меню &quot;%name%&quot; изменен" />
+    </section>
+</component>

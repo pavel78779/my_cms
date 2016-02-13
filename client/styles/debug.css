@@ -1,0 +1,11 @@
+.system-debug{
+    font-size: 14px;
+    font-family: monospace;
+}
+.system-debug .value{
+    color: blue;
+}
+.system-debug .header{
+    text-align: center;
+    padding: 5px;
+}

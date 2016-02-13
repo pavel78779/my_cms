@@ -1,0 +1,28 @@
+AddDefaultCharset UTF-8
+Options -Indexes
+RewriteEngine on
+
+#перенаправление с сайт с www на сайт без www
+#RewriteCond %{HTTP_HOST} ^www.web-program\.ru$ [NC]
+#RewriteRule ^(.*)$ http://web-program\.ru/$1 [R=301,L]
+
+#перенаправляем с site/index.php и c site/index.html на site
+RewriteCond %{THE_REQUEST} ^[A-Z]+\s/index\.(php|html)\sHTTP/[0-9.]+$
+RewriteRule .* / [R=301,L]
+
+#чпу
+RewriteCond %{SCRIPT_FILENAME} !-f [OR]
+RewriteCond %{SCRIPT_FILENAME} !\.(js|css|png|ico|jpg|gif|ttf|woff|html)$
+RewriteCond %{THE_REQUEST} !^[A-Z]+\s/admin/\sHTTP/[0-9.]+$
+RewriteCond %{THE_REQUEST} !^[A-Z]+\s/admin/index\.php(\?.*)?\sHTTP/[0-9.]+$
+RewriteRule ^.*$ index.php
+
+#gzip сжатие
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+  <IfModule mod_setenvif.c>
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  </IfModule>
+</IfModule>

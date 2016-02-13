@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <params>
+        <field title="HTML код" type="editor" name="html" required="required" />
+    </params>
+</module>

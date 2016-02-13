@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requests test</title>
+    <script src="client/js/jquery/jquery-1.11.3.min.js"></script>
+    <style>
+        body{
+            font-size: 16px;
+        }
+        div.postdata{
+            display: none;
+        }
+        .postdata table td.name input{
+            width: 120px;
+        }
+        .postdata table td.value input{
+            width: 400px;
+        }
+        .postdata table td.x button{
+            color: red;
+            font-weight: bold;
+        }
+        #ok{
+            font-size: 20px;
+            padding: 10px 30px;
+        }
+    </style>
+    <script>
+        $(window).load(function(){
+            $('#post_checkbox').on('click', function(){
+                if(this.checked){
+                    $('.postdata').css('display', 'block');
+                }else{
+                    $('.postdata').css('display', 'none');
+                }
+            });
+            // -----
+            $('.postdata table').on('click', 'td.x button', function(){
+                $(this).parents('tr').remove();
+            });
+            //
+            $('#adddata').on('click', function(){
+                $('.postdata table tbody').append('<tr> <td class="name"><input type="text" /></td> <td class="value"><input type="text" /></td> <td class="x"><button>X</button></td> </tr>');
+            });
+            //
+            $('#ok').on('click', function(){
+                //собираем даные для post-запроса
+                var request_type = 'GET';
+                var data = {};
+                if($('#post_checkbox')[0].checked){
+                    request_type = 'POST';
+                    $('.postdata table tr').each(function(){
+                        var name = $.trim($(this).find('td.name input').val());
+                        if(name !== ''){
+                            data[name] = $(this).find('td.value input').val();
+                        }
+                    });
+                }
+                $.ajax({
+                    url: $('#url').val(),
+                    type: request_type,
+                    data: data,
+                    cache: false,
+                    success: function(data){
+                        $('#result').html(data);
+                    },
+                    error: function(){
+                        $('#result').html(JSON.stringify(arguments, null, 3));
+                    }
+                });
+            });
+
+        });
+    </script>
+</head>
+<body>
+<input id="url" type="text" value="http://dvig/admin/index.php?com=content&section=articles&action=get&fields=id,name" style="width:90%;"/>
+<br />
+<button id="ok">OK</button>
+<br />
+<br />
+<label><input id="post_checkbox" type="checkbox"> POST data</label>
+<div class="postdata">
+    <table>
+        <tbody>
+        <tr>
+            <td class="name"><input type="text" /></td>
+            <td class="value"><input type="text" /></td>
+            <td class="x"><button>X</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <button id="adddata">+</button>
+</div>
+<pre id="result"></pre>
+
+
+</body>
+</html>

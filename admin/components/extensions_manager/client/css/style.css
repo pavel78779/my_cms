@@ -1,0 +1,9 @@
+.com_extensions_manager-extensions table.system-content-table td[data-name="description"]{
+    white-space: normal;
+}
+.com_extensions_manager-extensions table.system-content-table td.name{
+    width: 25%;
+}
+.com_extensions_manager-extensions table.system-content-table td.name a{
+    cursor: default;
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <params>
+        <field title="Отображать подпункты" type="switch" name="show_subitems" required="required" />
+    </params>
+</module>

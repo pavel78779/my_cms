@@ -1,0 +1,186 @@
+ul,li{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background: rgb(232, 220, 204) url("images/body_texture.jpg");
+    font-family: Verdana, Tahoma;
+    font-size: 15px;
+}
+.main-page{
+    margin: 10px auto;
+    width: 75%;
+    min-width: 600px;
+    max-width: 1400px;
+    border-radius: 5px;
+    box-shadow: 0 0 6px rgb(80, 80, 89);
+}
+.main-header{
+    height: 159px;
+    position: relative;
+}
+.main-header .header-image{
+    background: url("images/header_image.jpg") no-repeat;
+    height: 100%;
+    width: 567px;
+    position: absolute;
+    right: 0;
+}
+.main-header .header-gradient{
+    position: absolute;
+    background: url("images/header_gradient.jpg");
+    width: 100%;
+    height: 100%;
+}
+.content-outer{
+    /*width: 100%;*/
+    background: white;
+}
+.content-outer .left-column{
+    float: left;
+    width: 200px;
+    margin: 12px 10px;
+}
+.content-outer .content{
+    margin-left: 220px;
+    padding: 12px;
+}
+.left-column .module{
+    border: 1px solid rgb(148, 143, 166);
+    border-radius: 4px;
+    margin: 16px 0 30px 0;
+    overflow: hidden;
+}
+.left-column .module .header{
+    text-align: center;
+    padding: 7px;
+    color: #956538;
+    font-weight: bold;
+    background: rgb(211, 205, 221);
+}
+.left-column .module .body{
+    padding: 5px;
+}
+.top-menu{
+    border: 1px solid rgb(109, 109, 161);
+    height: 38px;
+    background: url("images/topmenu_bg.png");
+}
+.top-menu li{
+    float: left;
+    padding: 9px;
+    font-weight: bold;
+    background: url("images/topmenu_sep.png") no-repeat 100% center;
+}
+.top-menu a{
+    text-decoration: none;
+    padding: 5px 7px 7px 7px;
+    color: #00003b;
+}
+.top-menu a:hover{
+    color: #000fa6;
+}
+.top-menu .active a{
+    color: white;
+    background: rgb(75, 75, 118);
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgb(75, 77, 94);
+}
+.site-name{
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 34px;
+    width: 520px;
+    color: rgb(212, 213, 228);
+    top: 24%;
+}
+.main-page .footer{
+    text-align: center;
+    padding: 15px;
+    background: rgb(113, 113, 160);
+}
+.footer p{
+    margin: 0;
+    padding: 0;
+}
+.clr{
+    clear: both;
+}
+
+
+.system-notice{
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid green;
+    background: rgb(168, 245, 168);
+    border-radius: 5px;
+}
+.system-notice.success{
+    border-color: green;
+    background-color: rgb(168, 245, 168);
+}
+.system-notice.error{
+    border-color: red;
+    background-color: pink;
+}
+.button{
+    border: 0;
+    background: #0078a5;
+    background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+    background: -moz-linear-gradient(top, #00adee, #0078a5);
+    background: -ms-linear-gradient(top, #00adee, #0078a5);
+    background: -o-linear-gradient(top, #00adee, #0078a5);
+    padding: 7px 12px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px; border-radius: 10px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    text-shadow: rgba(0,0,0,.4) 0 1px 0;
+    color: #d9eef7;
+    font-size: 14px;
+    font-family: Helvetica, Arial, Sans-Serif;
+    text-decoration: none;
+    font-weight: bold;
+
+}
+.button:hover {
+    color: white;
+    background: #00678e;
+    background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+    background: -moz-linear-gradient(top, #0095cc, #00678e);
+    background: -ms-linear-gradient(top, #0095cc, #00678e);
+    background: -o-linear-gradient(top, #0095cc, #00678e);
+}
+.button:active{
+    background: #00adee;
+}
+
+.content ul li{
+    padding: 17px 10px 17px 40px;
+    background: url("images/2uparrow_8569.png") no-repeat left center;
+}
+input[type="text"], textarea{
+    padding: 5px 7px;
+    border: 1px solid #CCC;
+    border-bottom-color: #B3B3B3;
+    border-radius: 4px;
+    box-shadow: inset 1px 1px #F1F1F1, 0 1px 2px rgba(0,0,0,0.1);
+    color: #333;
+    font: 14px Arial, sans-serif;
+}
+input.invalid, textarea.invalid{
+    border-color: red;
+}
+.content{
+    position: relative;
+}
+/* Плагин notify */
+.plugin-notify-block{
+    position: absolute;
+}

@@ -1,0 +1,45 @@
+form.com_feedback td{
+    padding: 4px;
+    vertical-align: middle;
+}
+form.com_feedback td.name{
+    padding-right: 6px;
+    text-align: right;
+    color: #2b2b3c;
+}
+form.com_feedback td.field{
+    width: 250px;
+}
+form.com_feedback td.field input[type="text"]{
+    width: 200px;
+}
+form.com_feedback td.field textarea{
+    width: 100%;
+    box-sizing: border-box;
+}
+form.com_feedback table td.field textarea{
+    height: 100px;
+}
+form.com_feedback table.captcha input[type="text"]{
+    width: 70px;
+}
+form.com_feedback table.captcha a{
+    text-decoration: none;
+    border-bottom: 1px dashed blue;
+}
+form.com_feedback table.captcha a:hover{
+    border: 0;
+    color: #daa138;
+}
+form.com_feedback tr.buttons td{
+    text-align: right;
+    padding: 30px 40px;
+}
+form.com_feedback sup.required{
+    color: red;
+    font-weight: bold;
+    font-size: 12px;
+    display: inline-block;
+    width: 0;
+    overflow: visible;
+}

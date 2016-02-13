@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="content">
+    <section name="site_config" title="Конфигурация">
+        <edit title="Редактирование настроек" onsuccess="Настройки сохранены">
+            <ContentForm>
+                <fieldset title="Основные параметры">
+                    <field title="Сайт отключен" type="switch" name="SITE_DISABLED" required="required" />
+                    <field title="Название сайта" type="text" name="SITE_NAME" required="required" />
+                    <field title="Отладка" type="switch" name="SITE_DEBUG" required="required" />
+                    <field title="Ajax включен" type="switch" name="AJAX_ENABLED" required="required" />
+                </fieldset>
+                <fieldset title="База данных">
+                    <field title="Хост" type="text" name="DB_HOST" required="required" />
+                    <field title="Пользователь" type="text" name="DB_USER" required="required" />
+                    <field title="Пароль" type="text" name="DB_PASS" required="required" />
+                    <field title="Имя базы данных" type="text" name="DB_NAME" required="required" />
+                    <field title="Префикс таблиц" type="text" name="DB_TABLE_PREFIX" required="required" />
+                </fieldset>
+            </ContentForm>
+        </edit>
+    </section>
+</component>

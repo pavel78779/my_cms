@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="extensions_manager">
+    <section name="extensions" title="Все расширения">
+        <show title="Управление расширениями">
+            <ContentTable>
+                <change_ordering disabled="disabled" />
+                <mark_checkboxes disabled="disabled" />
+                <columns>
+                    <column title="Название" name="title" type="name" />
+                    <column title="Включено" type="switch" name="enabled" />
+                    <column title="Тип" name="type" replaced="component:Компонент, module:Модуль, plugin:Плагин, template:Шаблон"/>
+                    <column title="Версия" name="version" />
+                    <column title="Дата создания" name="creation_date" type="date" />
+                    <column title="Описание" name="description" />
+                    <column title="Автор" name="author" />
+                    <column title="ID" type="id" name="id" />
+                </columns>
+            </ContentTable>
+        </show>
+    </section>
+</component>

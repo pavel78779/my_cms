@@ -1,0 +1,197 @@
+FormElements = {
+	//вспомогательная функция назначает атрибуты
+	setAttrs: function(el, params, del_attrs){
+		var standard_attrs = ['width', 'height', 'rows', 'class', 'id', 'maxlength', 'multiple', 'name', 'style', 'title', 'disabled', 'readonly', 'onclick', 'onchange', 'min', 'max'];
+		var deleted_attrs = ['type', 'default', 'options', 'text', 'radio'];
+		for(var attr in params){
+			if(!params.hasOwnProperty(attr)) continue;
+			//если не передан параметр удаляемых атрибутов или этого атрибута в нем нет
+			if(!del_attrs || del_attrs.indexOf(attr) == -1){
+				//если это стандартный атрибут
+				if(standard_attrs.indexOf(attr) !== -1){
+					el.attr(attr, params[attr]);
+				}
+				//если не стандартный и его не надо удалять, делаем data-артибут
+				else if(deleted_attrs.indexOf(attr) == -1){
+					el.attr('data-'+attr, params[attr]);
+				}
+			}
+		}
+		return el;
+	},
+
+	// ------------ СТАНДАРТНЫЕ ЭЛЕМЕНТЫ ФОРМ -------------------
+	text: function(params){
+		var $input = $('<input type="text" />');
+		if(params.default !== undefined) $input.val(params.default);
+		if(params.pattern !== undefined){
+			var regexp = eval(params.pattern);
+			$input.on('blur', function(){
+				if(!regexp.test(this.value) && this.value !== ''){
+					$(this)
+						.addClass('invalid')
+						.popover({html: params.invalid_description||'Некорректное значение'});
+				}
+				else{
+					$(this).removeClass('invalid').popover('remove');
+				}
+			})
+				.on('focus', function(){
+                    $(this).removeClass('invalid').popover('remove');
+				});
+		}
+		return this.setAttrs($input , params);
+	},
+
+	number: function(params){
+		var $input = $('<input type="number" />');
+		if(params.default !== undefined) $input.val(params.default);
+		return this.setAttrs($input , params);
+	},
+
+	hidden: function(params){
+		var $hidden = $('<input type="hidden" />');
+		if(params.default !== undefined) $hidden.val(params.default);
+		return this.setAttrs($hidden , params);
+	},
+
+
+	select: function(params){
+		var $select = this.setAttrs($('<select />'), params);
+		//если есть опции - добавляем их
+		if((params.options||{}).option){
+			toArr(params.options.option).forEach(function(opt){
+				$select.append('<option value="'+opt.value+'">'+opt.title+'</option>');
+			});
+		}
+		//если опции надо загрузить еще и из URL
+		if((params.options||{}).from_url){
+			$select.prop('disabled', true).prepend('<option value="-" selected="selected">Загрузка...</option>');
+			$.getJSON(SITE.MAIN_URL+params.options.from_url)
+				.done(function(data){
+					data.forEach(function(el){
+						if(!$.isArray(el)) el = [el, el];
+                        $select.append('<option value="'+ el[1] +'">'+ el[0] +'</option>');
+
+					});
+                    $select.prop('disabled', false).find('option').eq(0).remove();
+					$select.find('option[value='+params.default+']').attr('selected', 'selected');
+				});
+		}
+		$select.find('option[value='+params.default+']').attr('selected', 'selected');
+		return $select;
+	},
+
+
+	textarea: function(params){
+        var $textarea = $('<textarea />');
+        if(params.default !== undefined) $textarea.text(params.default);
+        return this.setAttrs($textarea, params);
+	},
+
+
+	button: function(params){
+		var $button = $('<input type="button" value="'+ (params.text||'Выбрать') +'" />');
+		if(params.default !== undefined) $button.attr('data-value', params.default).val(params.default);
+		return this.setAttrs($button , params);
+	},
+
+
+	normal_text: function(params){
+		return this.setAttrs( $('<span />').html(params.text||'') , params);
+	},
+
+
+	radiogroup: function(params){
+		var $radiogroup = $('<div />');
+		var self = this;
+		toArr(params.radio).forEach(function(el){
+			var $radio = self.setAttrs($('<input type="radio" value="'+el.value+'"/>'), params);
+			$radiogroup.append($('<label />').append($radio).append(el.title));
+		});
+		if(params.default){
+			$radiogroup.find('input[type=radio][value='+params.default+']').prop('checked', true);
+		}else{
+			$radiogroup.find('input[type=radio]').eq(0).prop('checked', true);
+		}
+		return $radiogroup;
+	},
+
+
+	// ----------- ДОПОЛНИТЕЛЬНЫЙ ЭЛЕМЕНТЫ --------------
+
+    //HTML редактор
+    editor: function(params){
+        return $('<div class="system-editor" />')
+            .append('<div class="title">'+ params.title +'</div>')
+            .append(FormElements.textarea(params));
+    },
+
+
+	//две радиокнопки да/нет
+	'switch': function(params){
+		params = JSON.parse(JSON.stringify(params));
+		params.radio = [
+			{title: 'Да', value: 1},
+			{title: 'Нет', value: 0}
+		];
+		return this.radiogroup(params);
+	},
+
+
+    //select для выбора элемента из иерархии
+    hierarchySelect: function(params){
+        params = JSON.parse(JSON.stringify(params));
+        var self = this;
+        var $select = this.setAttrs($('<select disabled="disabled"><option>Загрузка...</option></select>'), params);
+        $.getJSON(SITE.MAIN_URL+params.options.from_url)
+            .done(function(data){
+                $select.prop('disabled', false).empty();
+                if(params.options.option){
+                    toArr(params.options.option).forEach(function(opt){
+                        $select.append('<option value="'+opt.value+'">'+opt.title+'</option>');
+                    });
+                }
+                var ii = 0;
+                function parse_category(el){
+                    var str = '';
+                    for(var i = 0; i < ii; i++) str += '&ndash;&ndash;&nbsp;|&nbsp;';
+                    $select.append('<option data-parent="'+el[2]+'" value="'+el[0]+'">'+ str.slice(0,-7)+el[1] +'</option>');
+                    data.forEach(function(el_){
+                        if(el_[2] === el[0]){
+                            ii++;
+                            parse_category(el_);
+                            ii--;
+                        }
+                    });
+                }
+                data.forEach(function(el){
+                    if(el[2] == 0){
+                        ii = 0;
+                        parse_category(el);
+                    }
+                });
+                if(params.default !== undefined){
+                    $select.find('option[value='+params.default+']').attr('selected', 'selected');
+                }
+                $select.trigger('element_loaded');
+            });
+        return $select;
+	},
+
+	hierarchySelectForParent: function(params){
+		var $select = this.hierarchySelect(params);
+        $select.on('element_loaded', function(){
+            //дети или сам элемент не могут быть родителями, поэтому мы их удаляем из select-а
+            function del_children(el){
+                el.siblings('[data-parent="'+el.attr('value')+'"]').each(function(){
+                    del_children($(this));
+                });
+                el.remove();
+            }
+            del_children($(this).children('option[value='+$(this).parents('form.system-options-form').attr('data-id')+']'));
+
+        });
+        return $select;
+	}
+};

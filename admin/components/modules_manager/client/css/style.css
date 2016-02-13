@@ -1,0 +1,90 @@
+.modules-manager-select-pages-window{
+    text-align: center;
+}
+.modules-manager-select-pages-window .col{
+    display: inline-block;
+    padding: 10px;
+}
+.modules-manager-select-pages-window .col .title{
+    padding-bottom: 7px;
+    font-weight: bold;
+    color: #505067;
+}
+.modules-manager-select-pages-window .col .title>div{
+    font-size: 11px;
+}
+.modules-manager-select-pages-window .select-pages{
+    padding: 20px 5px;
+}
+
+
+
+.modules-manager-select-module-type .item{
+    padding: 4px;
+}
+.modules-manager-select-module-type .item:hover{
+    background: #e3e6f7;
+}
+.modules-manager-select-module-type .item>*{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+}
+.modules-manager-select-module-type .item .title{
+    font-size: 100%;
+    font-weight: bold;
+    color: #284c72;
+}
+.modules-manager-select-module-type .item .description{
+    margin-left: 10px;
+    color: gray;
+}
+/*Стили для таблицы*/
+.com_modules_manager-menu table.system-content-table td.menu_items{
+    width: 1%;
+    text-align: center;
+}
+.com_modules_manager-menu table.system-content-table td.menu_items>div{
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+.com_modules_manager-menu table.system-content-table td.name a{
+    cursor: default;
+}
+/*Стили для окна выбора типа пункта меню*/
+.modules_manager-select_item_type .com{
+    margin-bottom: 10px;
+}
+.modules_manager-select_item_type .com>.title{
+    font-size: 110%;
+    color: #866C45;
+    font-weight: bold;
+}
+.modules_manager-select_item_type .com ul{
+    margin-left: 15px;
+}
+.modules_manager-select_item_type .com li{
+   padding: 3px;
+}
+.modules_manager-select_item_type .com li:hover{
+    background-color: #f1f4ff;
+}
+.modules_manager-select_item_type .com li>*{
+    display: inline-block;
+}
+.modules_manager-select_item_type .com li>.title{
+    color: #4a4b63;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modules_manager-select_item_type .com li>.title:hover{
+    color: blue;
+    text-decoration: underline;
+}
+.modules_manager-select_item_type .com li>.description{
+    color: gray;
+    margin-left: 10px;
+}
