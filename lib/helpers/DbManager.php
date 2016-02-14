@@ -11,7 +11,7 @@ class DbManager extends ContentManager{
 
     //конструктор принимает имя таблицы БД
     protected function __construct($db_table){
-        $this->db = Db::connect()->setTable($db_table);
+        $this->db = (new Db())->setTable($db_table);
         //сохраняем имена всех столбцов таблицы в бд
         $fields = [];
         $columns = $this->db->getAll('SHOW COLUMNS FROM #', null, MYSQLI_ASSOC);
@@ -27,19 +27,13 @@ class DbManager extends ContentManager{
         $this->orderGrouping = $field;
     }
 
-    //метод получает данные из бд
-    protected function getData($fields, $filter=[], $id=null){
-        if($id !== null){
-            $filter = array_merge($filter, ['id'=>$id]);
-        }
+
+    protected function _get($fields, $filter=[]){
         $conditions = [];
         foreach($filter as $key=>$value){
             $conditions[] = $this->db->parse('?n=?s', [$key, $value]);
         }
-        $where = '';
-        if($conditions){
-            $where = 'WHERE '.implode(' AND ', $conditions).' ';
-        }
+        $where = $conditions? 'WHERE '.implode(' AND ', $conditions).' ': '';
         $order = [];
         if($this->orderGrouping){
             $order[] = $this->orderGrouping;
@@ -52,8 +46,8 @@ class DbManager extends ContentManager{
     }
 
 
-    //метод удаляет данные
-    protected function deleteData($id_arr){
+
+    protected function _delete($id_arr){
         if(in_array('ordering', $this->fields) && $this->orderGrouping){
             $gr_field_values = $this->db->getCol('SELECT DISTINCT ?n FROM # WHERE id IN(?a)', [$this->orderGrouping, $id_arr]);
         }
@@ -71,18 +65,13 @@ class DbManager extends ContentManager{
     }
 
 
-
-    //метод добавляет новый элемент
-    protected function addData($data){
+    protected function _add($data){
         $auto_fields = [];
         if(in_array('creation_date', $this->fields)){
             $auto_fields['creation_date'] =	date("Y-m-d");
         }
         if(in_array('ordering', $this->fields)){
-            $where = '';
-            if($this->orderGrouping){
-                $where = $this->db->parse(' WHERE ?n=?s', [$this->orderGrouping, $data[$this->orderGrouping]]);
-            }
+            $where = $this->orderGrouping? $this->db->parse(' WHERE ?n=?s', [$this->orderGrouping, $data[$this->orderGrouping]]): '';
             $auto_fields['ordering'] = $this->db->getOne('SELECT MAX(`ordering`) FROM #'.$where) + 1;
         }
         $data = array_merge($data, $auto_fields);
@@ -93,7 +82,7 @@ class DbManager extends ContentManager{
 
 
     //метод изменяет данные
-    protected function updateData($data, $id){
+    protected function _update($data, $id){
         if(in_array('ordering', $this->fields) && $this->orderGrouping){
             //обновляем порядок
             $old_value = $this->db->getOne('SELECT ?n FROM # WHERE `id`=?i', [$this->orderGrouping, $id]);
@@ -112,7 +101,7 @@ class DbManager extends ContentManager{
 
 
 
-    protected function changeOrdering($id, $new_order){
+    protected function _changeOrdering($id, $new_order){
         if(!in_array('ordering', $this->fields)){
             throw new ValidatorException('Изменение порядка невозможно');
         }
@@ -148,7 +137,7 @@ class DbManager extends ContentManager{
 
 
     //вспомогательная функция - обновляет значения порядка
-    protected function refreshOrdering($gr_field_values=null){
+    private function refreshOrdering($gr_field_values=null){
         if($gr_field_values === null){
             $this->db->query('SET @i=0');
             $this->db->query('UPDATE # SET ordering=(@i:=@i+1) ORDER BY `ordering`');

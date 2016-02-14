@@ -1,10 +1,10 @@
 <?php
 $form_id = Request::getUrlSegment(2, true, Validator::INT);
-$form_data = Db::connect()->getRow('SELECT * FROM `##feedback_forms` WHERE `id`=?i', $form_id, MYSQLI_ASSOC);
+$form_data = (new Db())->getRow('SELECT * FROM `##feedback_forms` WHERE `id`=?i', $form_id, MYSQLI_ASSOC);
 if(!$form_data){
     Router::set404();
 }
-$fields = Db::connect()->getAll('SELECT * FROM `##feedback_fields` WHERE `form_id`=?i AND `published`=1 ORDER BY `ordering`', $form_data['id'], MYSQLI_ASSOC);
+$fields = (new Db())->getAll('SELECT * FROM `##feedback_fields` WHERE `form_id`=?i AND `published`=1 ORDER BY `ordering`', $form_data['id'], MYSQLI_ASSOC);
 if(Request::getUrlSegment(3, false) === 'submit'){
     Load::file(__DIR__.'/submit.php',[
         'form_data' => $form_data,

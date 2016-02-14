@@ -24,7 +24,7 @@ class HelpersController{
             $client_xml = file_get_contents($client_xml_path);
         }
 
-		$com_title = Db::connect()->getOne('SELECT `title` FROM ##extensions WHERE `name`=?s', Request::get('component'));
+		$com_title = (new Db())->getOne('SELECT `title` FROM ##extensions WHERE `name`=?s', Request::get('component'));
         $result = [preg_replace('/[\t\r\n]+/', '', $client_xml), preg_replace('/[\t\r]+/', '', $js), preg_replace('/[\t\r\n]+/', '', $css), $com_title];
 		echo Json::encode($result);
 	}

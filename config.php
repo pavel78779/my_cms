@@ -15,5 +15,5 @@ class SConfig{
     const SITE_TEMPLATE = 'web_old';
 	const ADMIN_TEMPLATE = 'default';
     const SITE_NAME = 'Все о создании сайтов';
-	const SITE_DEBUG = '0';
+	const SITE_DEBUG = '1';
 }

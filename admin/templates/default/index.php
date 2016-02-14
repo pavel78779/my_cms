@@ -41,7 +41,7 @@
 				<div class="system-dropdown-menu components" style="display:none;">
 					<?php
 					$skip_com = ['_system_', 'modules_manager', 'extensions_manager', 'content'];
-					foreach(Db::connect()->getAll("SELECT `name`,`title` FROM ##extensions WHERE `enabled`=1 AND `type`='component'") as $com){
+					foreach((new Db())->getAll("SELECT `name`,`title` FROM ##extensions WHERE `enabled`=1 AND `type`='component'") as $com){
 						if(!in_array($com[0], $skip_com)) echo '<a class="item" href="#!component/'.$com[0].'">'.$com[1].'</a>';
 					}
 					?>

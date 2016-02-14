@@ -15,7 +15,7 @@ class Router{
             Router::set404();
         }
         Request::setOriginalUrl($request_url);
-        $db = Db::connect()->setTable('url_redirects');
+        $db = (new Db())->setTable('url_redirects');
         //если у страницы есть новый адрес - перенаправляем, чтобы избежать дублей страниц
         if($ou = $db->getOne('SELECT `old_url` FROM # WHERE new_url=?s AND type="I"', $request_url)){
             Router::redirect($ou);

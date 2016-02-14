@@ -5,21 +5,24 @@ abstract class ContentManager{
     protected $fields = [];
     protected $fieldOptions = [];
 
+    abstract protected function _get($fields, $filter=[]);
+    abstract protected function _delete($id_list);
+    abstract protected function _add($data);
+    abstract protected function _update($data, $id);
+    abstract protected function _changeOrdering($id, $new_order);
+
+
     protected function __construct($fields){
         $this->fields = $fields;
     }
 
-    //метод задает параметры полей таблицы БД
+    //метод задает параметры полей
     protected function setFieldsOptions($options){
         $this->fieldOptions = array_merge($this->fieldOptions, $options);
     }
 
     public function get(){
-        if(!is_callable([$this, 'getData'])){
-            Router::set404();
-        }
         $fields = explode(',', Request::get('fields', true, Validator::STRICT_STRING_COMMAS));
-        $id = Request::get('id', false, Validator::INT);
         $filter = Request::get('filter', false, null);
         if($filter !== null){
             $filter = Json::decode($filter);
@@ -29,7 +32,7 @@ abstract class ContentManager{
             foreach($filter as $key=>$value){
                 Validator::strictString($key, 'Некорректный ключ для фильтра');
                 if(!in_array($key, $this->fields)){
-                    throw new ValidatorException('Поля для фильтра с именем "'.$key.'" не существует в таблице базы данных');
+                    throw new ValidatorException('Поля для фильтра с именем "'.$key.'" не существует');
                 }
             }
         }else{
@@ -45,47 +48,33 @@ abstract class ContentManager{
                 }
             }
         }
-        echo Json::encode($this->getData($fields, $filter, $id));
+        echo Json::encode($this->_get($fields, $filter));
     }
 
     public function delete(){
-        if(!is_callable([$this, 'deleteData'])){
-            Router::set404();
-        }
         $id_list = Json::decode(Request::post('id_list'));
         if(!$id_list){
-            throw new ValidatorException(__METHOD__.': некорректный список ID');
+            throw new ValidatorException('Некорректный список ID');
         }
         foreach($id_list as $value){
             Validator::int($value, 'ID должен быть числом');
         }
-        echo $this->deleteData($id_list);
+        echo $this->_delete($id_list);
     }
 
 
     public function add(){
-        if(!is_callable([$this, 'addData'])){
-            Router::set404();
-        }
         $data = Json::decode(Request::post('data'));
         if(!$data){
-            throw new ValidatorException(__METHOD__.': некорректный параметр data');
+            throw new ValidatorException('Некорректный параметр data');
         }
-        //проверяем, все ли обязательные поля заполнены
-        foreach($this->fieldOptions as $field=>$options){
-            if(!empty($options[1]) && !isset($data[$field])){
-                throw new ValidatorException('Обязательное поле "'.$field.'" не заполнено');
-            }
-        }
+        //проверка данных
         $this->validateDataForSave($data);
-        echo $this->addData($data);
+        echo $this->_add($data);
     }
 
 
     public function update(){
-        if(!is_callable([$this, 'updateData'])){
-            Router::set404();
-        }
         $data = Json::decode(Request::post('data'));
         $id = Request::post('id', true, Validator::INT);
         if(!$data){
@@ -93,27 +82,25 @@ abstract class ContentManager{
         }
         //проверка данных
         $this->validateDataForSave($data);
-        echo $this->updateData($data, $id);
+        echo $this->_update($data, $id);
     }
 
 
     public function change_ordering(){
-        if(!is_callable([$this, 'changeOrdering'])){
-            Router::set404();
-        }
         $id = Request::post('id', true, Validator::INT);
         $new_order = Request::post('new_order', true, Validator::INT);
         if($new_order <= 0){
             throw new ValidatorException('Новое значение порядка должно быть больше нуля');
         }
-        $this->changeOrdering($id, $new_order);
+        $this->_changeOrdering($id, $new_order);
     }
 
 
+    //вспомогательный метод - проверяет данные перед сохранением
     private function validateDataForSave($data){
         foreach($data as $key=>$value){
             Validator::strictString($key, 'Некорректное имя поля "'.$key.'"');
-            //поверка поля на наличие его в таблице базы данных
+            //проверяем, существует ли такое поле
             if(!in_array($key, $this->fields)){
                 throw new ValidatorException('Поля "'.$key.'" нет в таблице базы данных');
             }

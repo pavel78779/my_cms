@@ -33,7 +33,7 @@ class Document{
         $output_content = self::generateComponent();
         //генерируем содержимое модулей:
         //получаем позиции модулей из шаблона
-        $params = Db::connect()->getOne('SELECT `params` FROM ##extensions WHERE `name`=?s', [SConfig::SITE_TEMPLATE]);
+        $params = (new Db())->getOne('SELECT `params` FROM ##extensions WHERE `name`=?s', [SConfig::SITE_TEMPLATE]);
         $positions = Json::decode($params)['module_positions'];
         $modules_output = [];
         //генерируем вывод модулей каждой позиции
@@ -128,7 +128,7 @@ class Document{
 
     //метод генерирует модули определенной позиции
     static protected function generateModule($position){
-        $db = Db::connect()->setTable('modules');
+        $db = (new Db())->setTable('modules');
         $modules = $db->getAll('SELECT module_type,name,assignment_type,assignment_urls,show_header,params,id FROM # WHERE position=?s AND published=1 ORDER BY ordering', $position, MYSQLI_ASSOC);
         ob_start();
         foreach($modules as $module){

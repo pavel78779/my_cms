@@ -1,15 +1,15 @@
 <?php
 $global_start_time = microtime(true);
+define('SITE_ROOT', __DIR__);
+define('ADMIN_ROOT', SITE_ROOT.'/admin');
+mb_internal_encoding('UTF-8');
+require_once(SITE_ROOT.'/config.php');
+if(SConfig::SITE_DEBUG){
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    ini_set('error_reporting', E_ALL);
+}
 try{
-    define('SITE_ROOT', __DIR__);
-    define('ADMIN_ROOT', SITE_ROOT.'/admin');
-    mb_internal_encoding('UTF-8');
-    require_once(SITE_ROOT.'/config.php');
-    if(SConfig::SITE_DEBUG){
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        ini_set('error_reporting', E_ALL);
-    }
     //подключаем классы
     spl_autoload_register(function($class){
         $lib_dirs = ['core', 'exceptions', 'helpers', 'system'];

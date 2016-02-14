@@ -1,36 +1,28 @@
 <?php
 //класс для работы с базой данных
 class Db{
-    private $mysqli;
+    static private $mysqli;
     static private $stats;
-    static protected $db;
     private $table;
-    protected $prefix = SConfig::DB_TABLE_PREFIX;
 
     function __construct(){
-        //подключаемся
-        $this->mysqli = @new mysqli(SConfig::DB_HOST, SConfig::DB_USER, SConfig::DB_PASS, SConfig::DB_NAME);
-        if(mysqli_connect_errno()){
-            $this->error(mysqli_connect_errno().' '.mysqli_connect_error());
+        if(!self::$mysqli){
+            self::$mysqli = @new mysqli(SConfig::DB_HOST, SConfig::DB_USER, SConfig::DB_PASS, SConfig::DB_NAME);
+            if(mysqli_connect_errno()){
+                $this->error(mysqli_connect_errno().' '.mysqli_connect_error());
+            }
+            if(!self::$mysqli->set_charset('utf8')){
+                $this->error(self::$mysqli->error);
+            }
         }
-        //задаем кодировку
-        $this->mysqli->set_charset('utf8') or $this->error($this->mysqli->error);
     }
 
 	public function getMysqli(){
-		return $this->mysqli;
+		return self::$mysqli;
 	}
 
-    //метод создает объект класса Db и возвращает его
-    static public function connect(){
-        if(!self::$db){
-            self::$db = new self();
-        }
-        return self::$db;
-    }
-
     public function setTable($table){
-        $this->table = $this->prefix.$table;
+        $this->table = SConfig::DB_TABLE_PREFIX.$table;
         return $this;
     }
 
@@ -38,14 +30,14 @@ class Db{
     public function query($query, $values=[]){
         $query = $this->parse($query, $values);
         $start = microtime(TRUE);
-        $res   = $this->mysqli->query($query);
+        $res   = self::$mysqli->query($query);
         self::$stats[] = [
             'query' => $query,
             'timer' => microtime(TRUE) - $start,
         ];
         //если ошибка при запросе
         if(!$res){
-            $this->error($this->mysqli->error.' Запрос: ['.$query.']');
+            $this->error(self::$mysqli->error.' Запрос: ['.$query.']');
         }
         return $res;
     }
@@ -89,7 +81,7 @@ class Db{
 
     //метод обрабатывает строку запроса, подставляя значения плэйсхолдеров и имя таблицы
     public function parse($query, $values=[]){
-        $query = str_replace('##', $this->prefix, $query);
+        $query = str_replace('##', SConfig::DB_TABLE_PREFIX, $query);
         $query = str_replace('#', $this->table, $query);
         //если передан не массив значений, а одно значение - делаем его массивом
         if(!is_array($values)) $values = [$values];
@@ -149,7 +141,7 @@ class Db{
         if($value === null){
             return 'NULL';
         }
-        return	"'".$this->mysqli->real_escape_string($value)."'";
+        return	"'".self::$mysqli->real_escape_string($value)."'";
     }
 
     private function escapeIdent($value){

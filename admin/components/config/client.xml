@@ -12,7 +12,7 @@
                 <fieldset title="База данных">
                     <field title="Хост" type="text" name="DB_HOST" required="required" />
                     <field title="Пользователь" type="text" name="DB_USER" required="required" />
-                    <field title="Пароль" type="text" name="DB_PASS" required="required" />
+                    <field title="Пароль" type="text" name="DB_PASS" />
                     <field title="Имя базы данных" type="text" name="DB_NAME" required="required" />
                     <field title="Префикс таблиц" type="text" name="DB_TABLE_PREFIX" required="required" />
                 </fieldset>

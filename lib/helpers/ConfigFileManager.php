@@ -6,9 +6,9 @@ class ConfigFileManager extends ContentManager{
 
     protected function __construct($path, $class_name){
 		if(!is_readable($path) || !is_writable($path)){
-			throw new SystemException(__METHOD__.' '.$path.' не найден или недоступен для чтения или записи');
+			throw new SystemException($path.' не найден или недоступен для чтения или записи');
 		}
-        require_once($path);
+        require_once $path;
         if(!class_exists($class_name)){
             throw new SystemException('Класс '.$class_name.' не найден в '.$path);
         }
@@ -23,8 +23,8 @@ class ConfigFileManager extends ContentManager{
 	}
 
 
-    protected function getData($fields){
-        require_once($this->path);
+    protected function _get($fields, $filter=[]){
+        require_once $this->path;
 		$result = [];
 		foreach($fields as $key){
             $result[] = constant($this->className.'::'.$key);
@@ -33,7 +33,7 @@ class ConfigFileManager extends ContentManager{
 	}
 
 
-    protected function updateData($data){
+    protected function _update($data, $id){
 		$file_content = file_get_contents($this->path);
 		foreach($data as $key=>$value){
 			$count = 0;
@@ -45,4 +45,16 @@ class ConfigFileManager extends ContentManager{
 			file_put_contents($this->path, $file_content);
 		}
 	}
+
+	protected function _add($data){
+        Router::set404();
+    }
+
+    protected function _delete($id_list){
+        Router::set404();
+    }
+
+    protected function _changeOrdering($id, $new_order){
+        Router::set404();
+    }
 }

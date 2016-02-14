@@ -1,5 +1,5 @@
 <?php
-abstract class HierarchyDbManager extends DbManager{
+class HierarchyDbManager extends DbManager{
 
 
 	public function __construct($db_table){
@@ -9,7 +9,7 @@ abstract class HierarchyDbManager extends DbManager{
 
 
 	//при удалении категории нужно удалить и всех ее детей
-	protected function deleteData($id_arr){
+	protected function _delete($id_arr){
         function find_children($id, $db){
             //получаем детей категории
             $children = $db->getCol('SELECT `id` FROM # WHERE `parent`=?i', $id);
@@ -25,7 +25,7 @@ abstract class HierarchyDbManager extends DbManager{
             $deleted_id = array_merge($deleted_id, find_children($id, $this->db));
         }
         $deleted_id = array_unique($deleted_id);
-        parent::deleteData($deleted_id);
+        parent::_delete($deleted_id);
         //изменяем категорию на "Без категории" у элемнтов из удаленных категорий
         //$this->db->query('UPDATE ##content_articles SET `category`=0 WHERE `category` IN(?a)', [$deleted_id]);
 	}

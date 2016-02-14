@@ -8,7 +8,7 @@ class SectionController{
 			case 'login':
                 $username = Request::post('username', true, Validator::STRICT_STRING);
                 $password = Request::post('password');
-                $user = Db::connect()->getRow('SELECT * FROM ##users WHERE `username`=?s LIMIT 1', $username, MYSQLI_ASSOC);
+                $user = (new Db())->getRow('SELECT * FROM ##users WHERE `username`=?s LIMIT 1', $username, MYSQLI_ASSOC);
                 if(!$user || (crypt($password, $user['password']) !== $user['password']) || ($user['username'] !== $username)){
                     throw new ValidatorException('Неверное имя пользователя или пароль');
                 }
