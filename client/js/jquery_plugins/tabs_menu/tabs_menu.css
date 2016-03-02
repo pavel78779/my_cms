@@ -1,0 +1,27 @@
+.plugin-tabs-menu .tabs-header{
+    margin-left: 15px;
+}
+.plugin-tabs-menu .tabs-header>a{
+    color: #262636;
+    float: left;
+    padding: 6px;
+    background: #E5E5E5;
+    border: 2px solid rgb(196, 196, 196);
+    border-radius: 9px 9px 0 0;
+    cursor: pointer;
+    margin-left: -2px;
+    text-decoration: none;
+}
+.plugin-tabs-menu .tabs-header>a.active{
+    background-color: white;
+    color: rgb(7, 0, 110);
+    font-weight: bold;
+    border: 2px solid rgb(191, 186, 216);
+    border-bottom-color: transparent;
+}
+.plugin-tabs-menu .tabs-body{
+    border: 2px solid rgb(198, 198, 206);
+    border-radius: 4px;
+    padding: 4px;
+    margin-top: -2px;
+}

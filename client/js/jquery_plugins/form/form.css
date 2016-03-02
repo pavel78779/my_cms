@@ -1,0 +1,34 @@
+form.plugin-form fieldset{
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid rgb(199, 199, 206);
+    margin: 18px;
+}
+form.plugin-form select{
+    min-width: 70px;
+}
+form.plugin-form fieldset table{
+    margin: auto;
+}
+form.plugin-form fieldset table td{
+    text-align: left;
+}
+form.plugin-form fieldset table td.title{
+    text-align: right;
+    border: 1px solid #ffffff;
+    background: #f6f8f4;
+    cursor: default;
+    padding-right: 5px;
+}
+form.plugin-form fieldset legend{
+    color: rgb(73, 73, 105);
+    font-weight: bold;
+}
+.system-editor{
+    display: inline-block;
+    margin-top: 15px;
+}
+.system-editor .title{
+    text-align: center;
+    padding-bottom: 8px;
+}

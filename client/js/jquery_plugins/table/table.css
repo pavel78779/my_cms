@@ -1,0 +1,63 @@
+.plugin-table{
+    border-collapse: collapse;
+    width: 100%;
+}
+.plugin-table tr.header>td{
+    font-weight: bold;
+    text-align: center;
+    color: rgb(45, 45, 65);
+    background-color: rgb(211, 224, 228);
+    padding: 5px 6px;
+}
+.plugin-table td{
+    border: 1px solid rgb(195, 195, 195);
+    padding: 8px;
+    white-space: nowrap;
+}
+.plugin-table td.number, .plugin-table td.ordering, .plugin-table td.date, .plugin-table td.mark, .plugin-table td.switch, .plugin-table td.id{
+    text-align: center;
+    width: 1px;
+}
+.plugin-table tbody td.date{
+    font-weight: bold;
+    color: rgb(139, 103, 95);
+}
+.plugin-table tr:hover{
+    background-color: #f3f3f3;
+}
+.plugin-table td>div{
+    display: inline-block;
+}
+
+.plugin-table div.switch-value{
+    height: 14px;
+    width: 14px;
+    cursor: pointer;
+}
+.plugin-table div.switch-value[data-value="0"]{
+    background: url("images/0.png");
+}
+.plugin-table div.switch-value[data-value="1"]{
+    background: url("images/1.png");
+}
+.plugin-table div.switch-value.loading{
+    background: url("images/load_small.gif");
+}
+
+.plugin-table tbody div.change-ordering{
+    cursor: move;
+    width: 13px;
+    height: 21px;
+    background: url("images/move.png");
+}
+.plugin-table div.change-ordering-header{
+    background: url("images/order.png");
+    width: 9px;
+    height: 14px;
+}
+
+.plugin-table.dragging{
+    position: absolute;
+    z-index: 99;
+    background: #B0FFB0;
+}

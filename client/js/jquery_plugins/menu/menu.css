@@ -1,0 +1,54 @@
+.plugin-menu>.item>a{
+    font-weight: bold;
+    color: #000000;
+    text-decoration: none;
+    padding: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+.plugin-menu>.item{
+    float: left;
+    position: relative;
+}
+.plugin-menu>.item.subitems>a{
+    padding-right: 10px;
+    background: url("images/sort_desc.png") no-repeat right center;
+}
+.plugin-menu>.item>a:hover, .plugin-menu>.item.active>a{
+    background-color: rgb(121, 121, 141);
+    color: white;
+}
+.plugin-menu>.item>a:active{
+    background-color: #7073b5;
+    color: white;
+}
+
+.plugin-menu .submenu{
+    left: 0;
+    top: 100%;
+    display: none;
+    background: white;
+    border-radius: 0 4px 4px 4px;
+    position: absolute;
+    padding: 5px 0;
+    z-index: 99;
+    border: 1px solid #979797;
+    box-shadow: 0 0 6px gray;
+}
+.plugin-menu .submenu>a{
+    white-space: nowrap;
+    padding: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: #000000;
+}
+.plugin-menu .submenu>.separator{
+    border-top: 1px solid #c7c7c7;
+    margin: 5px 0;
+    height: 0;
+}
+.plugin-menu .submenu>a:hover{
+    background: #7B7AC5;
+    color: white;
+}

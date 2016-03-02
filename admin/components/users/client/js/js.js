@@ -31,7 +31,7 @@ FormElements.comUsersChangePasswordButton = function(params){
                 title: 'Изменение пароля',
                 buttons:{
                     'Ok': function(){
-                        var data = $popup_content.serializeObject();
+                        var data = $popup_content.serializeForm();
                         if(data){
                             var $repeat_password = $popup_content.find('input[name="repeat_password"]').popover('remove');
                             if(data.new_password !== data.repeat_password){

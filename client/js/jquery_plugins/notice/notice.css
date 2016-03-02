@@ -1,0 +1,31 @@
+.plugin-notice{
+    opacity: 0;
+    border: 1px solid;
+    padding: 11px 11px 11px 49px;
+    cursor: default;
+    position: fixed;
+    right: 10px;
+    z-index: 9999;
+    min-width: 170px;
+    max-width: 40%;
+    border-radius: 9px;
+    background: no-repeat 8px center;
+}
+
+.plugin-notice.success{
+    background-color: rgb(220, 255, 220);
+    background-image: url("images/ok.png");
+    color: rgb(0, 60, 0);
+    border-color: rgb(71, 142, 71);
+}
+.plugin-notice.success:hover{
+    background-color: #C2FFC2;
+}
+.plugin-notice.error{
+    background-image: url("images/error.png");
+    background-color: rgb(255, 219, 227);
+    color: rgb(116, 0, 0);
+}
+.plugin-notice.error:hover{
+    background-color: rgb(255, 197, 200);
+}

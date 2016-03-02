@@ -2,20 +2,20 @@
 <component name="content">
 	<section name="articles" title="Статьи">
         <show title="Управление статьями">
-            <ContentTable>
-                <change_ordering group_by="category" />
+            <table>
+                <changeOrdering groupBy="category" />
                 <columns>
+                    <column title="Порядок" type="ordering" name="ordering" />
                     <column title="Название" type="name" name="name"/>
                     <column title="Опубликовано" type="switch" name="published" />
-                    <column title="Порядок" type="ordering" name="ordering" />
                     <column title="Дата создания" type="date" name="creation_date" />
                     <column title="Категория" name="category" replaced="url:admin/index.php?com=content&amp;section=categories&amp;action=get&amp;fields=id,name" />
                     <column title="ID" type="id" name="id"/>
                 </columns>
-            </ContentTable>
+            </table>
         </show>
         <new title="Создание новой статьи" onsuccess="Статья &quot;%name%&quot; создана">
-            <ContentForm>
+            <form>
                 <fieldset title="Параметры статьи">
                     <field title="Название"     type="text"         name="name"      required="required" tooltip="название статьи" />
                     <field title="Опубликовано" type="switch"       name="published" required="required" tooltip="будет ли статья опубликована на сайте"/>
@@ -27,25 +27,25 @@
                     </field>
                     <field title="Текст статьи" type="editor" name="content" />
                 </fieldset>
-            </ContentForm>
+            </form>
         </new>
         <delete onsuccess="%count% стат%(ья|ьи|ей)% успешно удален%(а|ы|ы)%" confirm="Вы действительно хотите безвозвратно удалить выбранные статьи?" />
         <edit title="Редактирование статьи" onsuccess="Статья &quot;%name%&quot; изменена" />
 	</section>
 	<section name="categories" title="Категории">
         <show title="Управление категориями">
-            <HierarchyTable>
+            <hierarchyTable>
                 <columns>
+                    <column title="Порядок" name="ordering" type="ordering" />
                     <column title="Название" type="name" name="name"/>
                     <column title="Опубликовано" type="switch" name="published" />
                     <column title="Родитель" name="parent" />
-                    <column title="Порядок" name="ordering" type="ordering" />
                     <column title="ID" type="id" name="id"/>
                 </columns>
-            </HierarchyTable>
+            </hierarchyTable>
         </show>
         <new title="Создание новой категории" onsuccess="Категория &quot;%name%&quot; создана">
-            <ContentForm>
+            <form>
                 <fieldset title="Параметры категории">
                     <field title="Название" type="text" name="name" required="required" tooltip="название категории"/>
                     <field title="Опубликовано" type="switch" name="published" required="required" tooltip="будет ли категория опубликована на сайте"/>
@@ -56,7 +56,7 @@
                     </field>
                     <field title="Описание категории" type="editor" name="description" />
                 </fieldset>
-            </ContentForm>
+            </form>
         </new>
         <delete onsuccess="%count% категори%(я|и|й)% успешно удален%(а|ы|ы)%" confirm="При удалении категории удалятся и все ее вложенные категории. Продолжить?" />
         <edit title="Редактирование категории" onsuccess="Категория &quot;%name%&quot; изменена" />

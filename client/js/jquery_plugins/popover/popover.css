@@ -1,0 +1,27 @@
+.plugin-popover{
+    opacity: 0;
+    position: absolute;
+}
+.plugin-popover>.triangle{
+    background: no-repeat right center;
+    width: 8px;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: -8px;
+}
+.plugin-popover.warning>.triangle{
+    background-image: url("images/tr_orange.png");
+}
+.plugin-popover>.content{
+    background: no-repeat 4px center;
+    border: 1px solid;
+    padding: 8px 8px 8px 31px;
+    border-radius: 4px;
+}
+.plugin-popover.warning>.content{
+    background-color: rgb(255, 255, 186);
+    background-image: url("images/warning.png");
+    border-color: orange;
+    color: rgb(179, 76, 0);
+}

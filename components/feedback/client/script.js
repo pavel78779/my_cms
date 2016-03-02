@@ -11,7 +11,7 @@ $(document).on('ready ajax_load', function(){
 
         $form.on('submit', function(e){
             e.preventDefault();
-            var data = $(this).serializeObject();
+            var data = $(this).serializeForm();
             if(data){
                 data._ajax_mode_ = true;
                 $form.css('opacity', 0.5).find('input[type="submit"]').val('Отправка...').prop('disabled', true);

@@ -2,9 +2,9 @@
 <component name="extensions_manager">
     <section name="extensions" title="Все расширения">
         <show title="Управление расширениями">
-            <ContentTable>
-                <change_ordering disabled="disabled" />
-                <mark_checkboxes disabled="disabled" />
+            <table>
+                <changeOrdering disabled="disabled" />
+                <markCheckboxes disabled="disabled" />
                 <columns>
                     <column title="Название" name="title" type="name" />
                     <column title="Включено" type="switch" name="enabled" />
@@ -15,7 +15,7 @@
                     <column title="Автор" name="author" />
                     <column title="ID" type="id" name="id" />
                 </columns>
-            </ContentTable>
+            </table>
         </show>
     </section>
 </component>

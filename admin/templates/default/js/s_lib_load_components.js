@@ -31,9 +31,9 @@ var component = {
                     });
                 });
                 //создаем МЕНЮ КОМПОНЕНТА (в виде вкладок)
-                self.tabsMenu = $('.system-content-outer').html('').singleTabs(self.sections);
+                self.tabsMenu = $('.system-content-outer').html('').tabsMenu(self.sections);
                 if(data[3]){
-                    self.tabsMenu.prepend('<div class="system-component-info">Компонент: <span class="title">'+data[3]+'</span> ('+component_name+')</div>');
+                    $('.system-content-outer').prepend('<div class="system-component-info">Компонент: <span class="title">'+data[3]+'</span> ('+component_name+')</div>');
                 }
                 d.resolve();
             });
@@ -43,8 +43,8 @@ var component = {
     //метод отображает раздел компонента
     loadSection: function(section_name){
         var self = this;
-        self.tabsMenu.find('.tabs-header').children().removeClass('active').filter('.'+section_name).addClass('active');
-        self.contentBlock = $('<div class="system-content com_'+self.currentComponent+'-'+section_name+'" />').prependTo(self.tabsMenu.find('.tabs-body').html(''));
+        self.tabsMenu.siblings('.tabs-header').children().removeClass('active').filter('.'+section_name).addClass('active');
+        self.contentBlock = $('<div class="system-content com_'+self.currentComponent+'-'+section_name+'" />').prependTo(self.tabsMenu.html(''));
         self.xmlSection = self.xml.children().children('section[name='+section_name+']');
         self.sectionName = self.xmlSection.attr('name');
     },
@@ -66,19 +66,39 @@ var component = {
             data = self.xmlSection.children('show').children().toDATA();
         data.mainUrl = self.componentUrl+'&section='+self.sectionName;
         if(self.xmlSection.children('new,edit').length){
-            data.edit_elements = {
+            data.editElements = {
                 url: '#!component/'+self.currentComponent+'/'+self.sectionName+'/edit'
             };
         }
-        var show_obj = eval('new '+self.xmlSection.children('show').children()[0].tagName+'(data)');
-        var buttons = {
-            'new': self.xmlSection.children('new')[0]? '#!component/'+self.currentComponent+'/'+self.sectionName+'/new': null,
-            remove: self.xmlSection.children('delete')[0]? function(){ self.removeElements(show_obj.getMarkedElements()).done(function(){show_obj.refresh()}) }: null
-        };
+        //ИСПРАВИТЬ
+        var $div = $('<div />');
+        var columns = data.columns.column;
+        data = $.extend({}, data, {
+            columns: columns
+        });
+        console.log(data);
+        var table = $div[self.xmlSection.children('show').children()[0].tagName](data);
+        var $table = $div.children();
+
+        //var show_obj = eval('new '+self.xmlSection.children('show').children()[0].tagName+'(data)');
+        var buttons = [
+            {
+                type: 'new',
+                href: self.xmlSection.children('new')[0]? '#!component/'+self.currentComponent+'/'+self.sectionName+'/new': null
+            },
+            {
+                type: 'remove',
+                onclick: self.xmlSection.children('delete')[0]? function(){ self.removeElements(table.getMarkedElements()).done(function(){table.refresh()}) }: null
+            }
+        ];
+
+        var $buttons_ = $('<div />');
+        $buttons_.controlButtons({buttons: buttons});
+
         self.displayPage(
             self.xmlSection.children('show').attr('title'),
-            new ControlButtons(buttons),
-            show_obj.getResult()
+            $buttons_,
+            $table
         );
     },
 
@@ -158,7 +178,7 @@ var component = {
             element_name = '';
         //собираем значения полей со всех fieldset-ов формы
         form.children().each(function(){
-            var $fs = $(this), fs_name = $fs.attr('data-name'), fs_data = $fs.serializeObject();
+            var $fs = $(this), fs_name = $fs.attr('data-name'), fs_data = $fs.serializeForm();
             if(fs_data && ('name' in fs_data)) element_name = fs_data['name'];
             if(!fs_data) errors = true;
             if(fs_name){

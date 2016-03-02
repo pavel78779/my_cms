@@ -6,7 +6,7 @@
 	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
 	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/site_config.js" type="text/javascript"></script>
 	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery/polyfills.js" type="text/javascript"></script>
-	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/serializeObject.js" type="text/javascript"></script>
+	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/serializeForm.js" type="text/javascript"></script>
 
 	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery/plugins/popover.js" type="text/javascript"></script>
 	<?= $header ?>
