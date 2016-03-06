@@ -1,5 +1,4 @@
-var com = {},
-    CMS = {};
+var com = {};
 $(document).ready(function(){
 	//обработчик на ссылку "Выйти"
 	$('.system-user-block .logout').on('click', function(){

@@ -70,11 +70,11 @@ body>.system-outer{
 .system-content-outer{
     padding: 12px;
 }
-.system-component-info{
+.component-info{
     text-align: center;
     font-size: 115%;
 }
-.system-component-info span.title{
+.component-info span.title{
     color: rgb(137, 134, 63);
     font-weight: bold;
     font-size: 20px;

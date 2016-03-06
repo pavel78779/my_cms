@@ -9,6 +9,12 @@
         tabs.forEach(function(tab){
             tabs_header.append('<a href="'+tab.href+'" class="'+tab.name+'">'+tab.title+'</a>');
         });
-        return tabs_body;
+        var methods = {
+            setActiveItem: function(item_name){
+                tabs_header.children().removeClass('active').filter('.'+item_name).addClass('active');
+            },
+            tabsBody: tabs_body
+        };
+        return methods;
     };
 })(jQuery);

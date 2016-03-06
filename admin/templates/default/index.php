@@ -90,6 +90,7 @@
 		</div>
     <div id="test"></div>
     <script>
+        /*
         $('#test').form({fieldsets: [
             {title: 'Фс1', name: 'fsssss', fields: [
                 {title: 'Поле1', type: 'text', name: 'pole1', pattern: '/^[a-z]+$/', onclick: function(e){
@@ -111,6 +112,7 @@
             dop2: 'редакотрор',
             dop1: '64'
         }});
+        */
     </script>
 	</body>
 </html>

@@ -3,6 +3,8 @@ form.plugin-form fieldset{
     text-align: center;
     border: 1px solid rgb(199, 199, 206);
     margin: 18px;
+    display: inline-block;
+    padding: 10px 30px;
 }
 form.plugin-form select{
     min-width: 70px;

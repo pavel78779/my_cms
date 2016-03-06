@@ -128,8 +128,9 @@ $.formElements = {
 
     //HTML редактор
     editor: function(params){
+        params = $.extend({'class': 'editor'}, params);
         return $('<div class="system-editor" />')
-            .append('<div class="title">'+ params.title +'</div>')
+            .append('<div class="title">'+ params.title + (params.required? '<sup class="required">*</sup>': '') + '</div>')
             .append(this.textarea(params));
     },
 
@@ -150,7 +151,7 @@ $.formElements = {
         params = JSON.parse(JSON.stringify(params));
         var self = this;
         var $select = this.setAttrs($('<select disabled="disabled"><option>Загрузка...</option></select>'), params);
-        $.getJSON(SITE.MAIN_URL+params.optionsFrom_url)
+        $.getJSON(SITE.MAIN_URL+params.optionsFromUrl)
             .done(function(data){
                 $select.prop('disabled', false).empty();
                 if(params.options){

@@ -5,7 +5,7 @@
             defaultValues: {}
         }, params);
 
-        var $form = $('<form class="plugin-form" />').appendTo(this);
+        var $form = $('<form class="plugin-form" onsubmit="return false" />').appendTo(this);
 
         $.each(params.fieldsets, function(i, fieldset){
             var $fs = $('<fieldset />').appendTo($form);
@@ -20,6 +20,7 @@
             if(fieldset.fields.length > 0){
                 var $table = $('<table />').appendTo($fs);
                 $.each(fieldset.fields, function(i, field){
+                    field = $.extend({}, field);
                     var $tr = $('<tr />').appendTo($table),
                         $td1 = $('<td />').appendTo($tr);
                     if(field.name in params.defaultValues){

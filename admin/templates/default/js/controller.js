@@ -54,8 +54,7 @@ $(window).ready(function(){
         var hash = location.hash.slice(2);
         var parts = hash.split('?'),
             params = null,
-            segments = [];
-        segments = parts[0].split('/');
+            segments = parts[0].split('/');
         //если есть параметры
         if(parts[1]){
             params = {};
@@ -68,23 +67,8 @@ $(window).ready(function(){
 
         switch (segments[0]){
             case 'component':
-                function load_page(){
-                    //загружаем раздел компонента
-                    var section_name = segments[2] || component.sections[0].name;
-                    component.loadSection(section_name);
-                    component.sections.forEach(function(sec){
-                        if(sec.name == section_name){
-                            component.loadAction(segments[3] || sec.actions[0], params);
-                        }
-                    });
-                }
-                //если компонент изменился
-                if(segments[1] != component.currentComponent){
-                    component.loadComponent(segments[1])
-                        .done(load_page);
-                }else{
-                    load_page();
-                }
+                CMS.component.load(segments[1], segments[2], segments[3], params);
+                break;
         }
 
     }).triggerHandler('hashchange');
