@@ -62,6 +62,30 @@ CMS.component.register({
                             {title: 'ID', type: 'id', name: 'id'}
                         ]
                     }
+                },
+                'new': {
+                    type: 'form',
+                    title: 'Создание новой категории',
+                    params: {
+                        fieldsets: [
+                            {
+                                title: 'Параметры категории',
+                                fields: [
+                                    {title: 'Название', type: 'text', name: 'name', required: 'required'},
+                                    {title: 'Опубликовано', type: 'switch', name: 'published', required: 'required'},
+                                    {title: 'Родительская категория', type: 'hierarchySelectForParent', name: 'parent', options: [{value: '0', title: 'ВЕРХНИЙ УРОВЕНЬ'}], optionsFromUrl: 'admin/index.php?com=content&section=categories&action=get&fields=id,name,parent', required: 'required'},
+                                    {title: 'Описание категории', type: 'editor', name: 'description'}
+                                ]
+                            }
+                        ]
+                    }
+                },
+                edit: {
+                    type: 'form',
+                    title: 'Редактирование категории'
+                },
+                'delete': {
+                    confirm: 'При удалении категории удалятся и все ее вложенные категории. Продолжить?'
                 }
             }
         }

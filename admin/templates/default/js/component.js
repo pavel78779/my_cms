@@ -16,9 +16,11 @@ CMS.component = {
                 d.resolve();
             }else{
                 self.current.name = name;
+                self.current.section = null;
                 self.componentUrl = SITE.MAIN_URL+'admin/index.php?com='+name;
                 $.getJSON(SITE.MAIN_URL+'admin/index.php?com=_system_&section=helpers&action=get_component_data&component='+name)
                     .done(function(data){
+                        self.current.title = data[3];
                         //загружаем css и выполняем скрипты компонента
                         if(!$('style.com-'+name).length && data[2]){
                             $('<style class="com-'+name+'" type="text/css">'+data[2]+'</style>').appendTo('head');
@@ -27,6 +29,7 @@ CMS.component = {
                             $.globalEval(data[1]);
                         }
                         if(!self.componentsData[name]){
+                            console.info('Компонент '+name+' не зарегистрирован');
                             d.reject();
                             return;
                         }
@@ -57,8 +60,8 @@ CMS.component = {
                 section_name = self.componentsData[self.current.name].sections[0].name;
             }
             if(self.current.section === section_name) return;
-            self.sectionUrl = self.componentUrl+'&section='+section_name;
             self.current.section = section_name;
+            self.sectionUrl = self.componentUrl+'&section='+section_name;
             self.tabsMenu.setActiveItem(section_name);
             self.tabsMenu.tabsBody.empty();
             self.contentBlock = $('<div class="system-content com_'+self.current.name+'-'+section_name+'" />').prependTo(self.tabsMenu.tabsBody);
@@ -82,6 +85,7 @@ CMS.component = {
             }
             console.info('Загружаем action "'+action_name+'"');
             com_action = self.comSection.actions[action_name];
+            document.title = com_action.title + ' - ' + (self.current.title||self.current.name);
 
             var buttons = [],
                 $obj_body = $('<div style="clear: both;"/>'),
@@ -153,18 +157,19 @@ CMS.component = {
                             default_values = {};
                         $.each(params.fieldsets, function(i, fieldset){
                             $.each(fieldset.fields, function(i, field){
-                                fields_names.push(field.name);
+                                if(field.name) fields_names.push(field.name);
                             });
                         });
                         //запрашиваем данные с сервера
-                        $.getJSON(self.sectionUrl+'&action=get&fields='+fields_names.join(','), {filter: JSON.stringify({id: url_params.id})})
+                        var filter = (url_params.id? {filter: JSON.stringify({id: url_params.id})}: null);
+                        $.getJSON(self.sectionUrl+'&action=get&fields='+fields_names.join(','), filter)
                             .done(function(data){
                                 $.each(data[0], function(i, el){
                                     default_values[fields_names[i]] = el;
                                 });
                                 params = $.extend({defaultValues:default_values}, params);
                                 obj = $obj_body[com_action.type](params);
-                                $obj_body.find('form').attr('data-id', url_params.id);
+                                $obj_body.find('form').attr('data-id', url_params.id||0);
                                 init_editor();
                             });
                     }
@@ -241,8 +246,7 @@ CMS.component = {
             }
         });
         if(!errors){
-            console.log(form_data, element_id);
-            var save_func = self.comSection.actions[type].deleteFunc;
+            var save_func = (self.comSection.actions[type]||{}).saveFunc;
             //если задана пользовательская функция сохранения - вызываем ее, иначе вызываем стандартную функцию сохранения
             (save_func? save_func.call(self, form_data, element_id, form): self.standardFns.save(form_data, element_id))
                 .done(function(id){
@@ -260,7 +264,7 @@ CMS.component = {
 
     standardFns: {
         remove: function(arr_id){
-            return $.post(CMS.component.sectionUrl+'&action=delete', {id_list:JSON.stringify(arr_id)})
+            return $.post(CMS.component.sectionUrl+'&action=delete', {id_list: JSON.stringify(arr_id)})
                 .done(function(){
                     $.notice({
                         text: (CMS.component.comSection.actions.delete.onsuccess || 'Удалено'),

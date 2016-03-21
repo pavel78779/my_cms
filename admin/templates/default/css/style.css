@@ -1,7 +1,7 @@
 body{
 	margin: 0;
 	padding: 0;
-	font-family: Arial;
+	font-family: Arial, sans-serif;
 	font-size: 14px;
 }
 ul, li{
@@ -20,16 +20,6 @@ a:hover{
 }
 .clr{
 	clear: both;
-}
-.arrow-down{
-    display: inline-block;
-    background: url("../images/sort_desc.png") no-repeat right top;
-    width: 11px;
-    height: 6px;
-}
-.title1{
-    font-weight: bold;
-    color: #284c72;
 }
 body>.system-outer{
     position: relative;
@@ -84,28 +74,6 @@ body>.system-outer{
     position: relative;
     padding: 8px;
 }
-div.table-tr-lock{
-    opacity: 0.05;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    cursor: move;
-    background: url("../images/strih.jpg");
-}
-div.table-line-copy{
-    z-index: 99;
-    position: absolute;
-    box-shadow: 0 0 1px;
-    opacity: 1;
-    background: rgb(186, 255, 179);
-}
-.table-line-copy td{
-    border-color: transparent;
-}
-.switch{
-	text-align: center;
-}
 .system-page-overlay{
     position: fixed;
     width: 100%;
@@ -132,204 +100,11 @@ button.button:active{
     box-shadow: 0 0 5px gray inset;
     outline: 0;
 }
-.system-popup-window button:focus{
-    outline: 0;
-}
-.system-content-lock{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background-color: gray;
-    opacity: 0.1;
-}
-/**/
-.system-component-menu{
-    margin: 5px 16px;
-    border: 2px solid rgb(230, 229, 236);
-    background-color: rgb(248, 248, 243);
-    border-radius: 8px;
-    padding-left: 5px;
-}
-.system-component-menu .item{
-    display: inline-block;
-    font-weight: bold;
-    color: rgb(77, 77, 114);
-    padding: 3px;
-    margin: 4px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-.system-component-menu .item:hover{
-    color: #0000b9;
-}
-.system-component-menu .item:first-child{
-    border: 0;
-}
-.system-component-menu .item.active{
-    color: rgb(255, 255, 255);
-    background: #4c4f76;
-    box-shadow: 0 0 4px rgb(39, 0, 223);
-}
-.system-component-menu .item.active:hover{
-    background: #284c72;
-}
-.system-content-filters{
-    margin: 3px;
-    background: rgb(245, 245, 250);
-    padding: 2px;
-    border-radius: 5px;
-}
-.system-content-search input[type=text]{
-    width: 145px;
-}
-.system-content-filters>div{
-    display: inline-block;
-    width: 50%;
-}
-.system-content-filter{
-    text-align: right;
-}
 sup.required{
     color: red;
 }
-
-.system-modal-window{
-    width: 50%;
-    height: 50%;
-    background: white;
-    border: 2px solid #54597b;
-    border-radius: 9px;
-    box-shadow: 0 0 8px #434e74;
-    position: fixed;
-    z-index: 9999;
-}
-.system-modal-window .icon-close{
-    width: 32px;
-    height: 32px;
-    background: url(../images/close_6748.png);
-    display: block;
-    position: absolute;
-    margin-top: -26px;
-    margin-right: -20px;
-    right: 0;
-    cursor: pointer;
-}
-.system-modal-window .body{
-    overflow: auto;
-    box-sizing: border-box;
-    padding: 0 8px;
-}
-.system-modal-window .header-title{
-    padding: 8px;
-    font-weight: bold;
-    font-size: 18px;
-    color: #00004d;
-    text-align: center;
-}
-.thick-layer{
-    background: url(../images/diagonals-thick_40x40.png);
-    opacity: 0.2;
-    position: absolute;
-    z-index: 999;
-}
-/*ДЕРЕВО*/
-.system-tree ul, .system-tree li{
-    margin: 0;
-    padding: 0;
-}
-.system-tree li.node{
-    list-style: none;
-}
-
-.system-tree li.node:last-child>.node-body>.line-icon-bottom{
-    border: none;
-}
-.system-tree li.node:last-child>ul.container{
-    border: none;
-}
-.system-tree ul.container{
-    margin-left: 10px;
-    padding-left: 15px;
-    border-left: 1px solid gray;
-    /*overflow: hidden;*/
-}
-.system-tree>ul.container{
-    border: none;
-}
-.system-tree>ul.container>li.node:first-child>.node-body>.line-icon-top{
-    border: none;
-}
-.system-tree li.node>.node-body>*{
-    display: inline-block;
-    vertical-align: middle;
-}
-.system-tree li.node>.node-body{
-    position: relative;
-    display: inline-block;
-    padding: 4px 6px 4px 4px;
-}
-.system-tree li.node>.node-body>.line-icon-top{
-    height: 23px;
-    width: 0;
-    border-right: 1px solid gray;
-    position: absolute;
-    top: 0;
-    left: 10px;
-    margin-top: -9px;
-}
-.system-tree li.node>.node-body>.line-icon-bottom{
-    bottom: 0;
-    left: 10px;
-    border-right: 1px solid gray;
-    height: 55%;
-    position: absolute;
-}
-.system-tree li.node>.node-body:hover{
-    background-color: #f3f3f3;
-}
-.system-tree .node .expand-icon{
-    width: 27px;
-    height: 16px;
-    position: relative;
-    z-index: 10;
-}
-.system-tree .node.open>*>.expand-icon{
-    background-image: url("../images/toggle_collapse.png");
-}
-.system-tree .node.leaf>*>.expand-icon{
-    background-image: url("../images/leaf.png");
-}
-.system-tree .node.close>*>.expand-icon{
-    background-image: url("../images/toggle.png");
-}
-.system-tree input[type=checkbox]{
-    margin: 0;
-    padding: 0;
-}
 input.invalid{
-    border: 1px solid red;
-    padding: 2px 1px;
-}
-/* Static tooltip*/
-.static-tooltip-block{
-    position: absolute;
-    color: white;
-    opacity: 0.8;
-    z-index: 999999;
-}
-.static-tooltip-block .icon{
-    background: url("../images/blacriangle_.png") no-repeat center;
-    width: 10px;
-    height: 100%;
-    position: absolute;
-}
-.static-tooltip-block .content{
-    float: left;
-    background: black;
-    margin-left: 10px;
-    border-radius: 5px;
-    padding: 7px;
+    border-color: red;
 }
 
 .system-home-page{

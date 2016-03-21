@@ -2,15 +2,19 @@
 <html>
 <head lang="ru">
 	<meta charset="UTF-8">
-	<base href="<?= SConfig::SITE_MAIN_URI.'templates/'.SConfig::SITE_TEMPLATE.'/' ?>">
-	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
-	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/site_config.js" type="text/javascript"></script>
-	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery/polyfills.js" type="text/javascript"></script>
-	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/serializeForm.js" type="text/javascript"></script>
+	<script src="/client/js/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
+	<script src="/client/js/jquery/polyfills.js" type="text/javascript"></script>
+	<script src="/client/js/site_config.js" type="text/javascript"></script>
 
-	<script src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery/plugins/popover.js" type="text/javascript"></script>
+	<?php foreach(FileSys::getDirs(SITE_ROOT.'/client/js/jquery_plugins') as $plugin): ?>
+		<script type="text/javascript" src="/client/js/jquery_plugins/<?=$plugin?>/<?=$plugin?>.js"></script>
+	    <?php if(is_readable(SITE_ROOT.'/client/js/jquery_plugins/'.$plugin.'/'.$plugin.'.css')): ?>
+	        <link rel="stylesheet" type="text/css" href="/client/js/jquery_plugins/<?=$plugin?>/<?=$plugin?>.css">
+	    <?php endif; ?>
+	<?php endforeach; ?>
+
 	<?= $header ?>
-	<link rel="stylesheet" href="style.css" type="text/css">
+	<link rel="stylesheet" href="/templates/<?=SConfig::SITE_TEMPLATE?>/style.css" type="text/css">
 </head>
 <body>
 <div class="main-page">

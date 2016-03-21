@@ -29,7 +29,7 @@ class ConfigFileManager extends ContentManager{
 		foreach($fields as $key){
             $result[] = constant($this->className.'::'.$key);
 		}
-		return $result;
+		return [$result];
 	}
 
 

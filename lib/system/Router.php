@@ -35,9 +35,12 @@ class Router{
         }
 
         //получаем параметры пункта меню (если есть)
-        $item = $db->getOne('SELECT `params` FROM ##menu_items WHERE `item_url`=?s', [Request::getOriginalUrl()]);
+        $item = $db->getRow('SELECT * FROM ##menu_items WHERE `item_url`=?s', [Request::getOriginalUrl()], MYSQLI_ASSOC);
         if($item){
-            Request::setItemParams(Json::decode($item));
+            if($item['params']){
+                $item['params'] = Json::decode($item['params']);
+            }
+            Request::setItemParams($item);
         }
 
         Request::setRealUrl($request_url);

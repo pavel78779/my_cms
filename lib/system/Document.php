@@ -84,6 +84,12 @@ class Document{
 
     //метод генерирует header
     static protected function generateHeader($ajax_mode=false){
+        $item_params = Request::getItemParams();
+        if($item_params){
+            if($item_params['meta_robots']) self::setRobots($item_params['meta_robots']);
+            if($item_params['meta_description']) self::setDescription($item_params['meta_description']);
+            if($item_params['meta_keywords']) self::setKeywords($item_params['meta_keywords']);
+        }
 	    if(SConfig::SITE_DEBUG){
 		    self::addCss(SConfig::SITE_MAIN_URI.'client/styles/debug.css');
 	    }
@@ -98,9 +104,9 @@ class Document{
 		    ];
 	    }else{
 		    $r = '<title>'.self::$title.'</title>';
-		    if(self::$description)  $r .= '<meta name="description" content="'.self::$description.'">';
-		    if(self::$keywords)     $r .= '<meta name="keywords" content="'.self::$keywords.'">';
-		    if(self::$robots)       $r .= '<meta name="robots" content="'.self::$robots.'">';
+		    if(self::$description)  $r .= "\n".'<meta name="description" content="'.self::$description.'" />'."\n";
+		    if(self::$keywords)     $r .= '<meta name="keywords" content="'.self::$keywords.'" />'."\n";
+		    if(self::$robots)       $r .= '<meta name="robots" content="'.self::$robots.'" />'."\n";
 		    foreach(self::$js as $js){
 			    $r .= '<script type="text/javascript" src="'.$js.'"></script>';
 		    }

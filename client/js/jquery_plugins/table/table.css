@@ -61,3 +61,6 @@
     z-index: 99;
     background: #B0FFB0;
 }
+.plugin-table.dragging tr:hover{
+    background: #B0FFB0;
+}

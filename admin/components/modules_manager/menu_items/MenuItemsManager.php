@@ -23,7 +23,7 @@ class MenuItemsManager extends DbManager{
         echo Json::encode($this->db->getAll('SELECT `id`,`title` FROM ##items_types'));
     }
 
-	//метод получает xml-данные параметров одного типа пункта меню
+	//метод получает данные параметров одного типа пункта меню
 	public function get_item_params(){
 		echo $this->db->getOne('SELECT `params` FROM ##items_types WHERE `id`=?i LIMIT 1', Request::get('item_type', true, Validator::INT));
 	}
@@ -31,41 +31,34 @@ class MenuItemsManager extends DbManager{
 	public function update(){
         $data = Json::decode(Request::post('data'));
         $id = Request::post('id', true, Validator::INT);
-        if(!isset($data['main_params']) || !isset($data['item_params'])){
-            $this->updateData($data, $id);
-            return;
+		if(isset($data['item_params'])){
+            if(!isset($data['type'])){
+                throw new ValidatorException('Не передан параметр type');
+            }
+            Validator::int($data['type']);
+            $url_maker = $this->db->getOne('SELECT `url_maker` FROM ##items_types WHERE `id`=?i LIMIT 1', [$data['type']]);
+            if(!$url_maker){
+                throw new ValidatorException('Некорректный параметр type');
+            }
+            $real_url = eval($url_maker).'.html';
+            $data['params'] = Json::encode($data['item_params']);
+            $this->db->query('UPDATE ##url_redirects SET `old_url`=?s,`new_url`=?s WHERE `comment`=?i', [$data['item_url'], $real_url, $id]);
+            unset($data['item_params']);
         }
-        $main_params = $data['main_params'];
-        $item_params = $data['item_params'];
-
-        if(!isset($main_params['type'])){
-            throw new ValidatorException('Не передан параметр type');
-        }
-        Validator::int($main_params['type']);
-        $url_maker = $this->db->getOne('SELECT `url_maker` FROM ##items_types WHERE `id`=?i LIMIT 1', [$main_params['type']]);
-        if(!$url_maker){
-            throw new ValidatorException('Некорректный параметр type');
-        }
-
-        //data для eval-а
-        $data = $item_params;
-        $real_url = eval($url_maker).'.html';
-        $data = $main_params;
-
-        $data['params'] = Json::encode($item_params);
-
-		$this->db->query('UPDATE ##url_redirects SET `old_url`=?s,`new_url`=?s WHERE `comment`=?i', [$main_params['item_url'], $real_url, $id]);
-		$this->updateData($data, $id);
+        $this->_update($data, $id);
 	}
+
 
 	//метод создает пункт меню
 	public function add(){
-		$full_data = Json::decode(Request::post('data'));
-		$data = $full_data['item_params'];
-		$real_url = eval($this->db->getOne('SELECT `url_maker` FROM ##items_types WHERE `id`=?i LIMIT 1', [$full_data['main_params']['type']])).'.html';
-		$full_data['main_params']['params'] = Json::encode($full_data['item_params']);
-		$data = $full_data['main_params'];
-		$id = parent::addData($data);
+		$data = Json::decode(Request::post('data'));
+        if(empty($data['type'])){
+            throw new ValidatorException('Параметр "type" не передан или пустой');
+        }
+		$real_url = eval($this->db->getOne('SELECT `url_maker` FROM ##items_types WHERE `id`=?i LIMIT 1', [$data['type']])).'.html';
+		$data['params'] = Json::encode($data['item_params']);
+        unset($data['item_params']);
+		$id = parent::_add($data);
 		$this->db->query("INSERT INTO ##url_redirects (`old_url`,`new_url`,`type`,`system`,`comment`) VALUES (?s,?s,'I',1,?i)", [$data['item_url'], $real_url, $id]);
 		echo $id;
 	}
@@ -78,8 +71,8 @@ class MenuItemsManager extends DbManager{
 	}
 
 
-	public function deleteData($id_list){
-		parent::deleteData($id_list);
+	public function _delete($id_list){
+		parent::_delete($id_list);
 		$this->db->query('DELETE FROM ##url_redirects WHERE `comment` IN(?a)', [$id_list]);
 	}
 

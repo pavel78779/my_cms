@@ -1,11 +1,17 @@
 .system-debug{
     font-size: 14px;
     font-family: monospace;
+    background: white;
+}
+.system-debug .line{
+    border-top: 1px solid #DADADA;
+    padding: 6px 10px;
 }
 .system-debug .value{
     color: blue;
 }
 .system-debug .header{
     text-align: center;
-    padding: 5px;
+    padding: 6px;
+    font-weight: bold;
 }

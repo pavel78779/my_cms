@@ -8,5 +8,5 @@ if(!$article){
 Document::setTitle($article['name']);
 Load::view(__DIR__.'/view.php', [
     'data' => $article,
-    'params' => Request::getItemParams()
+    'params' => Request::getItemParams()['params']
 ]);

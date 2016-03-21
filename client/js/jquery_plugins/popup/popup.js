@@ -58,25 +58,29 @@ $.fn.popup = function(options){
     //вешаем обработчики для перемещения окна
     $popup.children('div.title').on('mousedown', function(e){
         e.preventDefault();
-        var deltaY = e.clientY - $popup.offset().top,
-            deltaX = e.clientX - $popup.offset().left,
+        var deltaY = e.pageY - $popup.offset().top,
+            deltaX = e.pageX - $popup.offset().left,
             popup_height = $popup.outerHeight(),
             popup_width = $popup.outerWidth();
         $(document).on('mousemove.plugin_popup', function(e){
-                if(e.clientY <= deltaY){
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop,
+                scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            var pageY = e.pageY - scrollTop,
+                pageX = e.pageX - scrollLeft;
+                if(pageY <= deltaY){
                     $popup.css('top', 0);
-                }else if(e.clientY-deltaY+popup_height >= window.innerHeight){
+                }else if(pageY-deltaY+popup_height >= window.innerHeight){
                     $popup.css('top', window.innerHeight-popup_height);
                 }else{
-                    $popup.css('top', e.clientY - deltaY);
+                    $popup.css('top', pageY - deltaY);
                 }
 
-                if(e.clientX <= deltaX){
+                if(pageX <= deltaX){
                     $popup.css('left', 0);
-                }else if(e.clientX-deltaX+popup_width >= window.innerWidth){
+                }else if(pageX-deltaX+popup_width >= window.innerWidth){
                     $popup.css('left', window.innerWidth-popup_width);
                 }else{
-                    $popup.css('left', e.clientX - deltaX);
+                    $popup.css('left', pageX - deltaX);
                 }
             })
             .on('mouseup.plugin_popup', function(){

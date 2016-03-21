@@ -33,7 +33,7 @@
         });
 
 
-        // --- назначаем обработчики событий на таблицу ---
+        // --- назначаем обработчики СОБЫТИЙ на таблицу ---
         //на чекбокс "Отметить все"
         if(!params.markCheckboxes.disabled){
             $table.on('click.mark_checkboxes', 'thead td.mark input[type=checkbox]', function(){

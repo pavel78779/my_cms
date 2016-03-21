@@ -8,11 +8,12 @@
         var $form = $('<form class="plugin-form" onsubmit="return false" />').appendTo(this);
 
         $.each(params.fieldsets, function(i, fieldset){
-            var $fs = $('<fieldset />').appendTo($form);
+            var $div = $('<div />').appendTo($form);
+            var $fs = $('<fieldset />').appendTo($div);
             if(fieldset.title){
                 $fs.append('<legend>'+fieldset.title+'</legend>');
             }else{
-                $fs.addClass('unnamed');
+                $fs.addClass('untitled');
             }
             if(fieldset.name){
                 $fs.attr('data-name', fieldset.name);
@@ -24,7 +25,9 @@
                     var $tr = $('<tr />').appendTo($table),
                         $td1 = $('<td />').appendTo($tr);
                     if(field.name in params.defaultValues){
-                        field.default = params.defaultValues[field.name];
+                        if(params.defaultValues[field.name] !== null){
+                            field.default = params.defaultValues[field.name];
+                        }
                     }
                     if(field.type === 'editor'){
                         $td1.attr('colspan', '2').append($.formElements.editor(field, $form));
@@ -43,5 +46,10 @@
                 $fs.append('<span>Нет параметров</span>');
             }
         });
+        $form.triggerHandler('form_load');
+        $form.find('input,select,textarea').each(function(){
+            $(this).triggerHandler('form_load', [$form]);
+        });
+
     };
 })(jQuery);

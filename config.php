@@ -1,8 +1,8 @@
 <?php
 class SConfig{
 	const DB_HOST = 'localhost';
-	const DB_USER = 'root';
-	const DB_PASS = '';
+	const DB_USER = 'admin';
+	const DB_PASS = '123456';
 	const DB_NAME = 'my_cms';
 	const DB_TABLE_PREFIX = 'kfjsy_';
 
@@ -14,6 +14,6 @@ class SConfig{
 
     const SITE_TEMPLATE = 'web_old';
 	const ADMIN_TEMPLATE = 'default';
-    const SITE_NAME = 'Все о создании сайтов';
+    const SITE_NAME = 'Все о создании сайтовt';
 	const SITE_DEBUG = '1';
 }

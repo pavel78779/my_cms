@@ -28,4 +28,13 @@ class HelpersController{
         $result = [preg_replace('/[\t\r\n]+/', '', $client_xml), preg_replace('/[\t\r]+/', '', $js), preg_replace('/[\t\r\n]+/', '', $css), $com_title];
 		echo Json::encode($result);
 	}
+
+
+    //метод получает данные для главной страницы админки
+	public function get_data_for_main_page(){
+        $db = new Db();
+        $components = $db->getAll("SELECT `title`,`name` FROM ##extensions WHERE `type`='component' AND `enabled`=1");
+        $modules = $db->getAll('SELECT `name`,`id` FROM ##modules WHERE `published`=1');
+        echo  Json::encode([$components, $modules]);
+    }
 }

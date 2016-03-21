@@ -6,6 +6,10 @@ form.plugin-form fieldset{
     display: inline-block;
     padding: 10px 30px;
 }
+form.plugin-form fieldset.untitled{
+    border: 0;
+    margin: 10px;
+}
 form.plugin-form select{
     min-width: 70px;
 }
@@ -33,4 +37,12 @@ form.plugin-form fieldset legend{
 .system-editor .title{
     text-align: center;
     padding-bottom: 8px;
+}
+
+form.plugin-form input[type=text]{
+    width: 180px;
+}
+form.plugin-form textarea{
+    width: 200px;
+    height: 55px;
 }

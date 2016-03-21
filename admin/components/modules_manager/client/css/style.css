@@ -17,8 +17,6 @@
     padding: 20px 5px;
 }
 
-
-
 .modules-manager-select-module-type .item{
     padding: 4px;
 }
@@ -40,20 +38,11 @@
     margin-left: 10px;
     color: gray;
 }
-/*Стили для таблицы*/
-.com_modules_manager-menu table.system-content-table td.menu_items{
-    width: 1%;
-    text-align: center;
+
+.com_modules_manager-modules fieldset[data-name=module_params]{
+    min-width: 300px;
 }
-.com_modules_manager-menu table.system-content-table td.menu_items>div{
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    display: inline-block;
-}
-.com_modules_manager-menu table.system-content-table td.name a{
-    cursor: default;
-}
+
 /*Стили для окна выбора типа пункта меню*/
 .modules_manager-select_item_type .com{
     margin-bottom: 10px;

@@ -7,7 +7,7 @@ body{
     margin: 0;
     padding: 0;
     background: rgb(232, 220, 204) url("images/body_texture.jpg");
-    font-family: Verdana, Tahoma;
+    font-family: Verdana, Tahoma, sans-serif;
     font-size: 15px;
 }
 .main-page{
@@ -36,7 +36,6 @@ body{
     height: 100%;
 }
 .content-outer{
-    /*width: 100%;*/
     background: white;
 }
 .content-outer .left-column{
@@ -44,7 +43,7 @@ body{
     width: 200px;
     margin: 12px 10px;
 }
-.content-outer .content{
+.content-outer>.content{
     margin-left: 220px;
     padding: 12px;
 }
@@ -179,8 +178,4 @@ input.invalid, textarea.invalid{
 }
 .content{
     position: relative;
-}
-/* Плагин notify */
-.plugin-notify-block{
-    position: absolute;
 }

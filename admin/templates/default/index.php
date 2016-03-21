@@ -2,53 +2,24 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Главная страница - панель управления</title>
-		<link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>admin/templates/default/css/style.css">
-		<script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery/jquery-1.11.3.min.js"></script>
-
+		<link rel="stylesheet" type="text/css" href="templates/default/css/style.css">
+        <!-- подключаем jquery -->
+		<script type="text/javascript" src="../client/js/jquery/jquery-1.11.3.min.js"></script>
 		<!-- подключаем ядро -->
-		<?php Load::js(SITE_ROOT.'/client/js', SConfig::SITE_MAIN_URI.'client/js/') ?>
-
+		<?php Load::js(SITE_ROOT.'/client/js', '../client/js/') ?>
 		<!--  подключаем скрипты шаблона -->
-		<?php Load::js(ADMIN_ROOT.'/templates/'.SConfig::ADMIN_TEMPLATE.'/js', SConfig::SITE_MAIN_URI.'admin/templates/'.SConfig::ADMIN_TEMPLATE.'/js/') ?>
-
+		<?php Load::js(ADMIN_ROOT.'/templates/'.SConfig::ADMIN_TEMPLATE.'/js', 'templates/'.SConfig::ADMIN_TEMPLATE.'/js/') ?>
 		<!-- Подключаем редактор -->
-		<script type="text/javascript" src="<?php echo SConfig::SITE_MAIN_URI ?>client/js/tinymce/tinymce.min.js"></script>
-
-
+		<script type="text/javascript" src="../client/js/tinymce/tinymce.min.js"></script>
 		<!-- подключаем плагины JQuery -->
-		<script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/popup/popup.js"></script>
-		<link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/popup/popup.css">
-
-        <script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/popover/popover.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/popover/popover.css">
-
-		<script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/tooltip/tooltip.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/tooltip/tooltip.css">
-
-        <script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/tabs_menu/tabs_menu.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/tabs_menu/tabs_menu.css">
-
-        <script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/serialize_form/serialize_form.js"></script>
-
-		<script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/table/table.js"></script>
-		<link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/table/table.css">
-
-		<script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/notice/notice.js"></script>
-		<link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/notice/notice.css">
-
-		<script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/control_buttons/control_buttons.js"></script>
-		<link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/control_buttons/control_buttons.css">
-
-        <script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/menu/menu.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/menu/menu.css">
-
-        <script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/form/form.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/form/form.css">
-
-        <script type="text/javascript" src="<?=SConfig::SITE_MAIN_URI?>client/js/jquery_plugins/form_elements/form_elements.js"></script>
+        <?php foreach(FileSys::getDirs(SITE_ROOT.'/client/js/jquery_plugins') as $plugin): ?>
+            <script type="text/javascript" src="../client/js/jquery_plugins/<?=$plugin?>/<?=$plugin?>.js"></script>
+            <?php if(is_readable(SITE_ROOT.'/client/js/jquery_plugins/'.$plugin.'/'.$plugin.'.css')): ?>
+                <link rel="stylesheet" type="text/css" href="../client/js/jquery_plugins/<?=$plugin?>/<?=$plugin?>.css">
+            <?php endif; ?>
+        <?php endforeach; ?>
 	</head>
 	<body>
 		<div class="system-outer">
@@ -57,8 +28,19 @@
 				Вы вошли как <span class="username"><?=$user['username']?></span>
 				<a class="logout" href="#">Выйти</a>
 			</div>
+            <script language="JavaScript">
+                //обработчик на ссылку "Выйти"
+                $('.system-user-block .logout').on('click', function(){
+                    $.get('index.php?com=users&action=logout')
+                        .always(function(){
+                            location.reload();
+                        });
+                    return false;
+                });
+            </script>
 			<div class="system-main-menu"></div>
             <script language="JavaScript">
+                //создаем меню
                 $('.system-main-menu').menu({
                     items: [
                         {text: 'Настройки', href: '#!component/config'},
@@ -84,35 +66,7 @@
                     ]
                 });
             </script>
-			<div class="system-content-outer">
-				<div class="system-welcome">Добро пожаловать, <?=$user['name']?>.</div>
-			</div>
+			<div class="system-content-outer"></div>
 		</div>
-    <div id="test"></div>
-    <script>
-        /*
-        $('#test').form({fieldsets: [
-            {title: 'Фс1', name: 'fsssss', fields: [
-                {title: 'Поле1', type: 'text', name: 'pole1', pattern: '/^[a-z]+$/', onclick: function(e){
-                    console.warn(this);
-                }},
-                {title: 'Поле2', type: 'select', name: 'poleselect', options: [
-                    {title: 'Опт1', value: 'opt1'},
-                    {title: 'ОПТ2', value: 'OPT2'}
-                ], onchange: function(){
-                    console.log($(this).val());
-                }}
-            ]},
-            {title: 'Доп параметры', fields:[
-                {title: 'доппм1', name: 'dop1', type: 'select', optionsFromUrl: 'admin/index.php?com=content&section=articles&action=get&fields=name,id'},
-                {title: 'доппарам2', name: 'dop2', type: 'editor'}
-            ]}
-        ], defaultValues: {
-            pole1: 'Свинья',
-            dop2: 'редакотрор',
-            dop1: '64'
-        }});
-        */
-    </script>
 	</body>
 </html>

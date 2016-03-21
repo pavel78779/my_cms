@@ -99,7 +99,8 @@ class Db{
             $i++;
             if(!isset($values[$i])) $this->error('Количество значений не равно количеству плэйсхолдеров');
             if(isset($placeholders[$match[0]])){
-                return $this->$placeholders[$match[0]]($values[$i]);
+                $method = $placeholders[$match[0]];
+                return $this->$method($values[$i]);
             }else{
                 $this->error('Некорректный плэйсхолдер '.$match[0]);
             }

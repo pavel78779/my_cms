@@ -34,7 +34,7 @@ $.formElements = {
                     if(!regexp.test(this.value) && (this.value !== '')){
                         $(this)
                             .addClass('invalid')
-                            .popover({html: params.invalidDescription||'Некорректное значение'});
+                            .popover({html: params.invalid_description||'Некорректное значение'});
                     }else{
                         $(this).removeClass('invalid').popover('remove');
                     }

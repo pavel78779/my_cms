@@ -23,11 +23,11 @@ class ModulesManager extends DbManager{
 		echo Json::encode(Json::decode($params)['module_positions']);
 	}
 
-	//метод выводит параметры определенного типа модуля в виде xml
+	//метод выводит параметры определенного типа модуля
 	public function get_module_params(){
         $module_name = Request::get('module_name');
-		if(is_readable(ADMIN_ROOT.'/modules/'.$module_name.'/config.xml')){
-			echo file_get_contents(ADMIN_ROOT.'/modules/'.$module_name.'/config.xml');
+		if(is_readable(ADMIN_ROOT.'/modules/'.$module_name.'/params.json')){
+			echo file_get_contents(ADMIN_ROOT.'/modules/'.$module_name.'/params.json');
 		}
 	}
 }
